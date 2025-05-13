@@ -1,3 +1,5 @@
+console.log("Cargando script...");
+
 const token = new URLSearchParams(window.location.search).get('token');
 const canvas = document.getElementById('ruleta');
 const ctx = canvas.getContext('2d');
