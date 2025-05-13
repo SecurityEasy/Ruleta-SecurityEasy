@@ -27,6 +27,8 @@ let girando = false;
 
 // 🎨 Dibuja la ruleta
 function dibujarRuleta() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
   for (let i = 0; i < slices; i++) {
     const startAngle = anguloActual + i * sliceAngle;
     const endAngle = startAngle + sliceAngle;
@@ -38,13 +40,13 @@ function dibujarRuleta() {
     ctx.fill();
     ctx.save();
 
-    // Texto
+    // Texto dentro del sector
     ctx.translate(250, 250);
     ctx.rotate(startAngle + sliceAngle / 2);
-    ctx.textAlign = "right";
+    ctx.textAlign = "center";
     ctx.fillStyle = "white";
-    ctx.font = "bold 14px Arial";
-    ctx.fillText(premios[i], 230, 10);
+    ctx.font = "bold 12px Arial";
+    ctx.fillText(premios[i], 150, 10);
     ctx.restore();
   }
 
@@ -82,7 +84,6 @@ function girarRuleta() {
     anguloActual += velocidad;
     velocidad -= deceleracion;
 
-    ctx.clearRect(0, 0, 500, 500);
     dibujarRuleta();
     requestAnimationFrame(animar);
   };
@@ -90,6 +91,7 @@ function girarRuleta() {
   requestAnimationFrame(animar);
 }
 
+// 🔐 Token y control de uso
 if (!token) {
   mensaje.textContent = "Token inválido. No puedes girar.";
   btn.disabled = true;
