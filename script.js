@@ -25,10 +25,10 @@ const sliceAngle = 2 * Math.PI / slices;
 let anguloActual = 0;
 let girando = false;
 
-// 🎨 Dibuja la ruleta
-function dibujarRuleta() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+const logo = new Image();
+logo.src = "https://static.wixstatic.com/media/ce5010_e1ea5e79f9cc4a03857ea47a698d5504~mv2.jpg";
 
+function dibujarRuleta() {
   for (let i = 0; i < slices; i++) {
     const startAngle = anguloActual + i * sliceAngle;
     const endAngle = startAngle + sliceAngle;
@@ -40,23 +40,35 @@ function dibujarRuleta() {
     ctx.fill();
     ctx.save();
 
-    // Texto dentro del sector
     ctx.translate(250, 250);
     ctx.rotate(startAngle + sliceAngle / 2);
-    ctx.textAlign = "center";
+    ctx.textAlign = "right";
     ctx.fillStyle = "white";
-    ctx.font = "bold 12px Arial";
-    ctx.fillText(premios[i], 150, 10);
+    ctx.font = "bold 14px Arial";
+    ctx.fillText(premios[i], 230, 10);
     ctx.restore();
   }
 
-  // Flecha arriba
   ctx.beginPath();
   ctx.moveTo(250, 0);
   ctx.lineTo(240, 20);
   ctx.lineTo(260, 20);
   ctx.fillStyle = "#333";
   ctx.fill();
+
+  if (logo.complete) {
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(250, 250, 50, 0, 2 * Math.PI);
+    ctx.closePath();
+    ctx.clip();
+    ctx.drawImage(logo, 200, 200, 100, 100);
+    ctx.restore();
+  } else {
+    logo.onload = () => {
+      dibujarRuleta();
+    };
+  }
 }
 
 function obtenerPremio(finalAngle) {
@@ -69,7 +81,7 @@ function girarRuleta() {
   girando = true;
   btn.disabled = true;
 
-  let velocidad = Math.random() * 0.3 + 0.25; // velocidad inicial
+  let velocidad = Math.random() * 0.3 + 0.25;
   const deceleracion = 0.005;
 
   const animar = () => {
@@ -77,13 +89,14 @@ function girarRuleta() {
       girando = false;
       const premio = obtenerPremio(anguloActual);
       mensaje.textContent = `¡Ganaste: ${premio}!`;
-      localStorage.setItem(`token-${token}`, true); // marca token como usado
+      localStorage.setItem(`token-${token}`, true);
       return;
     }
 
     anguloActual += velocidad;
     velocidad -= deceleracion;
 
+    ctx.clearRect(0, 0, 500, 500);
     dibujarRuleta();
     requestAnimationFrame(animar);
   };
@@ -91,7 +104,6 @@ function girarRuleta() {
   requestAnimationFrame(animar);
 }
 
-// 🔐 Token y control de uso
 if (!token) {
   mensaje.textContent = "Token inválido. No puedes girar.";
   btn.disabled = true;
