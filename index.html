@@ -1,32 +1,17 @@
-body {
-  text-align: center;
-  font-family: Arial, sans-serif;
-  background-color: #fdfdfd;
-  padding-top: 40px;
-}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Ruleta de Premios</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>¡Gira la ruleta y gana!</h1>
+  <canvas id="ruleta" width="500" height="500"></canvas>
+  <br>
+  <button id="girarBtn">Girar</button>
+  <p id="mensaje"></p>
 
-canvas {
-  border: 5px solid #333;
-  border-radius: 50%;
-}
-
-button {
-  padding: 10px 20px;
-  font-size: 18px;
-  margin-top: 20px;
-  cursor: pointer;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  border-radius: 8px;
-}
-
-button:disabled {
-  background-color: gray;
-}
-
-#mensaje {
-  margin-top: 20px;
-  font-size: 20px;
-  font-weight: bold;
-}
+  <script src="script.js"></script>
+</body>
+</html>
